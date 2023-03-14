@@ -11,7 +11,7 @@ describe("register tests with POM", () => {
     randomNewPassword: faker.internet.password(8, true) + 1
   };
 
-  before("visit gallery app and click the register button", () => {
+  beforeEach("visit gallery app and click the register button", () => {
     cy.visit("/");
     registerPage.registerNavbarLink.click();
     cy.url().should("include", "/register");
@@ -25,9 +25,10 @@ describe("register tests with POM", () => {
         registerPage.passwordConfirmationInput.type(userData.randomPassword);
         registerPage.tcCheckbox.check();
         registerPage.submitButton.click();
-        registerPage.errorMessage.should("be.visible");
-        registerPage.errorMessage.should("have.text", "The email has alredy been taken");
-  })
+        registerPage.errorMessage
+        .should("be.visible")
+        .and("have.text", "The email has already been taken.")
+  });
 
   it("register with invalid password confirmation", () => {
         registerPage.firstNameInput.type(userData.randomFirstName);
@@ -41,7 +42,7 @@ describe("register tests with POM", () => {
         registerPage.errorMessage.should("have.text", "The password confirmation does not match.");
   })
 
-  it.only("register without acception terms and conditions", () => {
+  it("register without acception terms and conditions", () => {
     registerPage.firstNameInput.type(userData.randomFirstName);
     registerPage.lastNameInput.type(userData.randomLastName);
     registerPage.emailInput.type(userData.randomEmail);
@@ -51,4 +52,14 @@ describe("register tests with POM", () => {
     registerPage.errorMessage.should("be.visible");
     registerPage.errorMessage.should("have.text", "The terms and conditions must be accepted.");
   })
+
+  it("register with valid credentials", () => {
+    registerPage.firstNameInput.type(userData.randomFirstName);
+    registerPage.lastNameInput.type(userData.randomLastName);
+    registerPage.emailInput.type(userData.randomEmail);
+    registerPage.passwordInput.type(userData.randomPassword);
+    registerPage.passwordConfirmationInput.type(userData.randomPassword);
+    registerPage.tcCheckbox.check();
+    registerPage.submitButton.click();
+})
 });
