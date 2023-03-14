@@ -1,0 +1,51 @@
+class CreatePage {
+
+  get createGalleryHeading() {
+    return cy.get("h1");
+  }
+
+  get createGalleryLink() {
+    return cy.get(".nav-link").eq(2);
+  }
+
+    get titleInput() {
+      return cy.get("#title");
+    }
+  
+    get descriptionInput() {
+      return cy.get("#description");
+    }
+  
+    get imageUrlInput() {
+      return cy.get(":url").eq(2);
+    }
+
+    get addImageBtn() {
+      return cy.get("button").eq(2);
+    }
+
+    get secondImageInput() {
+      return cy.get(":url").eq(3)
+    }
+  
+    get submitButton() {
+      return cy.get(":submit").eq(0);
+    }
+
+    get cancelBtn() {
+      return cy.get(":submit").eq(1);
+    }
+  
+    createGallery(title, description, url) {
+      this.titleInput.type(title);
+      this.descriptionInput.type(description);
+      this.imageUrlInput.type(url);
+      this.addImageBtn.click();
+      this.secondImageInput.type(url);
+      this.submitButton.click();
+      this.cancelBtn.click();
+    }
+  }
+  
+  export const createPage = new CreatePage();
+  
