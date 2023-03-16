@@ -34,6 +34,7 @@ describe("login tests using POM", () => {
       console.log(interception);
       expect(interception.response.statusCode).not.to.be.equal(401);
       expect(interception.response.statusCode).to.be.equal(200);
+      expect(interception.response.body.access_token).to.exist;
     });
   });
 

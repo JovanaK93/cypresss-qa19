@@ -9,6 +9,7 @@ module.exports = defineConfig({
     env: {
       testUserEmail: "test2612@test.com",
       testUserPassword: "test1234",
+      apiUrl: "https://gallery-api.vivifyideas.com/api",
     },
   },
 });
