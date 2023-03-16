@@ -8,7 +8,7 @@ describe("login tests using POM", () => {
     cy.url().should("include", "/login");
   });
 
-  it.only("login with invalid credentials", () => {
+  it("login with invalid credentials", () => {
     loginPage.login("nedovic.filip@gmail", "Test12345");
     cy.url().should("contain", "/login");
     loginPage.errorMessage.should("exist");
@@ -21,9 +21,21 @@ describe("login tests using POM", () => {
     cy.get(".nav-link").should("have.length", 3);
   });
 
-  it("login with valid credentials", () => {
-    loginPage.login("nedovic.filip@gmail.com", "Test12345");
+  it.only("login with valid credentials", () => {
+    loginPage.login("test2612@test.com", "test1234");
     cy.url().should("not.contain", "/login");
+    cy.intercept({
+      method: "POST",
+      url: "https://gallery-api.vivifyideas.com/api/auth/login",
+    }).as("validLogin");
+
+    loginPage.login("test2612@test.com", "test1234");
+    cy.wait("@validLogin").then((interception) => {
+      console.log(interception);
+      expect(interception.response.statusCode).not.to.be.equal(401);
+      expect(interception.response.statusCode).to.be.equal(200);
+    });
   });
+
 
 });
